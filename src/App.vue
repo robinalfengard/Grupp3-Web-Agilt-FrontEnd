@@ -1,14 +1,19 @@
 <template>
-  <LandningPage />
+  
+  <div>
+    <NavBarForTestingRouting />
+    <router-view />
+  </div>
 </template>
 
 <script>
-import LandningPage from './components/LandningPage.vue';
+import NavBarForTestingRouting from './components/NavBarForTestingRouting.vue';
+
 
 export default {
-  name: 'App',
   components: {
-    LandningPage, // ES6 shorthand syntax
+    NavBarForTestingRouting,
+
   }
 }
 </script>
