@@ -47,7 +47,10 @@
 
 
 <script>
-import { ref } from 'vue'
+import { ref } from 'vue';
+import axios from 'axios';
+import { API_URL } from '@/config';
+axios.defaults.baseURL = API_URL;
 
 export default {
     name: 'SignUpComponent',
@@ -88,11 +91,32 @@ export default {
             return true;
         };
 
-        const signup = () => {
+        const signup = async () => {
             if (!validateForm()) {
                 return;
             }
-            // Do something with the form data
+            try {
+    const response = await axios.post('/user/signup', {
+      firstName: firstname.value,
+      lastName: lastname.value,
+      address: address.value,
+      city: city.value,
+      email: email.value,
+      password: password.value,
+    });
+
+    if (response.status === 200) {
+      infoText.value = 'Signup successful';
+    } else{
+        infoText.value = 'Signup failed';
+    }
+
+   
+
+
+  } catch (error) {
+    console.error(error);
+  }
         };
 
         return {
