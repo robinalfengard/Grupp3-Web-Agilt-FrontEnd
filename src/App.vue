@@ -1,27 +1,16 @@
 <template>
-  <LandningPage />
-  <LoginPage />
-</template>
-
-<script>
-import LandningPage from './components/LandningPage.vue';
-import LoginPage from './components/LoginPage.vue';
-import NavBarForTestingRouting from './components/NavBarForTestingRouting.vue';
-  
-  <div>
+   <div>
     <NavBarForTestingRouting />
     <router-view />
   </div>
 </template>
 
 <script>
-
+import NavBarForTestingRouting from './components/NavBarForTestingRouting.vue';
 
 export default {
   components: {
-    LandningPage, // ES6 shorthand syntax
-    LoginPage,
-    NavBarForTestingRouting,
+       NavBarForTestingRouting
   }
 }
 </script>
