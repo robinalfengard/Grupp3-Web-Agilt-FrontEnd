@@ -1,25 +1,49 @@
 <template>
-<div class="input-group">
-  <span class="input-group-addon" id="basic-addon1">@</span>
-  <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
-</div>
+ <div class="d-flex justify-content-center align-items-center vh-100">
+        <div class="card shadow-sm" style="width: 40%;">
+            <div class="card-body">
+                <h3 class="card-title text-center">Sign Up</h3>
+                <form>
 
-<div class="input-group">
-  <input type="text" class="form-control" placeholder="Recipient's username" aria-describedby="basic-addon2">
-  <span class="input-group-addon" id="basic-addon2">@example.com</span>
-</div>
+                    <div class="mb-3">
 
-<div class="input-group">
-  <span class="input-group-addon">$</span>
-  <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-  <span class="input-group-addon">.00</span>
-</div>
+                        <input type="text" class="form-control" id="firstname" placeholder="Enter first name">
+                    </div>
 
-<label for="basic-url">Your vanity URL</label>
-<div class="input-group">
-  <span class="input-group-addon" id="basic-addon3">https://example.com/users/</span>
-  <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-</div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="lastname" placeholder="Enter last name">
+                    </div>
+
+                    
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="address" placeholder="Enter address">
+                    </div>
+
+                    
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="city" placeholder="Enter city">
+                    </div>
+
+
+
+                    <div class="mb-3">
+                        <input type="email" class="form-control" id="email" placeholder="Enter email">
+                    </div>
+
+                    <div class="mb-3">
+
+                        <input type="password" class="form-control" id="password" placeholder="Enter password">
+                    </div>
+
+
+
+
+                    <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </template>
 
 <script>
