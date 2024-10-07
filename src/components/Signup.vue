@@ -1,26 +1,29 @@
 <template>
- <div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="d-flex justify-content-center align-items-center vh-100">
         <div class="card shadow-sm" style="width: 40%;">
             <div class="card-body">
                 <h3 class="card-title text-center">Sign Up</h3>
-                <h3>{{infoText}}</h3>
-                <form  @submit.prevent="signup()">
+                <h3>{{ infoText }}</h3>
+                <form @submit.prevent="signup()">
 
                     <div class="mb-3">
 
-                        <input v-model="firstname" type="text" class="form-control" id="firstname" placeholder="Enter first name">
+                        <input v-model="firstname" type="text" class="form-control" id="firstname"
+                            placeholder="Enter first name">
                     </div>
 
                     <div class="mb-3">
-                        <input v-model="lastname" type="text" class="form-control" id="lastname" placeholder="Enter last name">
+                        <input v-model="lastname" type="text" class="form-control" id="lastname"
+                            placeholder="Enter last name">
                     </div>
 
-                    
+
                     <div class="mb-3">
-                        <input v-model="address" type="text" class="form-control" id="address" placeholder="Enter address">
+                        <input v-model="address" type="text" class="form-control" id="address"
+                            placeholder="Enter address">
                     </div>
 
-                    
+
                     <div class="mb-3">
                         <input v-model="city" type="text" class="form-control" id="city" placeholder="Enter city">
                     </div>
@@ -32,14 +35,15 @@
 
                     <div class="mb-3">
 
-                        <input v-model="password" type="password" class="form-control" id="password" placeholder="Enter password">
+                        <input v-model="password" type="password" class="form-control" id="password"
+                            placeholder="Enter password">
                     </div>
-                    
 
-                    <button  @click="signup()" class="btn btn-primary w-100">Sign Up</button>     
-                </form> 
+
+                    <button @click="signup()" class="btn btn-primary w-100">Sign Up</button>
+                </form>
             </div>
-           
+
         </div>
     </div>
 
@@ -96,39 +100,39 @@ export default {
                 return;
             }
 
-    try{
-        const response = await axios.get(`/user/${email.value}`);
-        if(response.status === 200){
-            infoText.value = 'Email already exists';
-            return;
-        }
+            try {
+                const response = await axios.get(`/user/${email.value}`);
+                if (response.status === 200) {
+                    infoText.value = 'Email already exists';
+                    return;
+                }
 
-    } catch (error) {
-        console.error(error);
-    }
-    
-    try {
-    const response = await axios.post('/user/signup', {
-      firstName: firstname.value,
-      lastName: lastname.value,
-      address: address.value,
-      city: city.value,
-      email: email.value,
-      password: password.value,
-    });
+            } catch (error) {
+                console.error(error);
+            }
 
-    if (response.status === 200) {
-      infoText.value = 'Signup successful';
-    } else{
-        infoText.value = 'Signup failed';
-    }
+            try {
+                const response = await axios.post('/user/signup', {
+                    firstName: firstname.value,
+                    lastName: lastname.value,
+                    address: address.value,
+                    city: city.value,
+                    email: email.value,
+                    password: password.value,
+                });
 
-   
+                if (response.status === 200) {
+                    infoText.value = 'Signup successful';
+                } else {
+                    infoText.value = 'Signup failed';
+                }
 
 
-  } catch (error) {
-    console.error(error);
-  }
+
+
+            } catch (error) {
+                console.error(error);
+            }
         };
 
         return {
