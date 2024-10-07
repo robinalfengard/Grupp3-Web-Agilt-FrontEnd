@@ -1,14 +1,14 @@
 <template>
-  <Landning msg="Welcome to Your Vue.js App"/>
+  <LandningPage />
 </template>
 
 <script>
-import Landning from './components/Landning.vue'
+import LandningPage from './components/LandningPage.vue';
 
 export default {
   name: 'App',
   components: {
-    Landning: Landning
+    LandningPage, // ES6 shorthand syntax
   }
 }
 </script>
