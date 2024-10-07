@@ -49,8 +49,6 @@
 <script>
 export default {
     name: 'SignUpComponent',
-    props: {
-      msg: String
-    }
+
   }
 </script>
