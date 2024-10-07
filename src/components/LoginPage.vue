@@ -14,7 +14,7 @@
     </form>
     <p class="mt-3 text-center">
       Don't have an account?
-      <a href="#!" class="text-primary fw-bold">Sign up here</a>
+      <router-link to="/signup" class="text-primary fw-bold">Sign up here</router-link>
     </p>
     <p v-if="errorMessage" class="text-danger mt-3 text-center">{{ errorMessage }}</p>
   </div>
