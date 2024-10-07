@@ -9,12 +9,12 @@
         <ul class="navbar-nav ms-auto">
             <router-link to="/home">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link active" aria-current="page" h>Home</a>
           </li>
         </router-link>
         <router-link to="/signup">
           <li class="nav-item">
-            <a class="nav-link" href="">Sign Up</a>
+            <a class="nav-link">Sign Up</a>
         </li>
     </router-link>
         </ul>
