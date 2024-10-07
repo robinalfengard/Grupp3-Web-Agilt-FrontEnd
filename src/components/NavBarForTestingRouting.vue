@@ -7,7 +7,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-            <router-link to="/home">
+            <router-link to="/">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" h>Home</a>
           </li>
