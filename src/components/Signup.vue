@@ -95,7 +95,19 @@ export default {
             if (!validateForm()) {
                 return;
             }
-            try {
+
+    try{
+        const response = await axios.get(`/user/${email.value}`);
+        if(response.status === 200){
+            infoText.value = 'Email already exists';
+            return;
+        }
+
+    } catch (error) {
+        console.error(error);
+    }
+    
+    try {
     const response = await axios.post('/user/signup', {
       firstName: firstname.value,
       lastName: lastname.value,
