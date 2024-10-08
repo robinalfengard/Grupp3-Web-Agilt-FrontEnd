@@ -16,7 +16,6 @@
         </div>
       </div>
     </div>
-
     <p v-else class="text-center">No products available.</p>
   </div>
 </template>
