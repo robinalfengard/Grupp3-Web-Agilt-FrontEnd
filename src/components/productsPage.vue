@@ -2,7 +2,6 @@
   <div class="container">
     <p v-if="loading" class="text-center">Loading products...</p>
     <p v-if="error" class="text-center text-danger">{{ error }}</p>
-
     <div v-if="products.length && !loading" class="row">
       <div v-for="product in products" :key="product.id" class="col-12 col-md-6 col-lg-4 mb-4">
         <div class="card h-100">
