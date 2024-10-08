@@ -19,6 +19,11 @@ const routes = [
     {
         path: '/',
         component: LandningPage
+    },
+    {
+        path: '/categories/:id/products',
+        name: 'productsPage',
+        component: () => import('../components/productsPage.vue')
     }
 ]
 
