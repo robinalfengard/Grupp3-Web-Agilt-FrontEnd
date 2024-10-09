@@ -54,6 +54,7 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import { API_URL } from '@/config';
+import { useRouter } from 'vue-router';
 axios.defaults.baseURL = API_URL;
 
 export default {
@@ -66,6 +67,7 @@ export default {
         const email = ref('');
         const password = ref('');
         const infoText = ref("");
+        const router = useRouter();
 
         const validateForm = () => {
             if (firstname.value === '') {
@@ -123,8 +125,8 @@ export default {
 
                 if (response.status === 200) {
                     infoText.value = 'Signup successful';
-                    const redirectPath = this.$route.query.redirect || '/home';
-                    this.$router.push(redirectPath);
+                    const redirectPath =  '/home';
+                    router.push(redirectPath);
                 } else {
                     infoText.value = 'Signup failed';
                 }
