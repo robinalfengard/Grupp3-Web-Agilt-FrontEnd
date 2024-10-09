@@ -1,21 +1,23 @@
 <template>
-  <div>
-    <p v-if="loading">Loading categories...</p>
-    <p v-if="error">{{ error }}</p>
-    <ul v-if="categories.length && !loading">
-      <div v-for="category in categories" :key="category.id">
-        <div class="category-item">
-          <h2>{{ category.name }}</h2>
-          <img :src="category.image || '/path/to/fallback.jpg'" alt="Category Image" class="category-image" />
+  <div class="container">
+    <p v-if="loading" class="text-center">Loading categories...</p>
+    <p v-if="error" class="text-center text-danger">{{ error }}</p>
+    <div v-if="categories.length && !loading" class="row">
+      <div v-for="category in categories" :key="category.id" class="col-6 col-md-4 col-lg-3 mb-4">
+        <div class="card h-100">
+          <img :src="category.image" alt="Category Image" class="card-img-top category-image">
+          <div class="card-body">
+            <h2 class="card-title text-center">{{ category.name }}</h2>
+          </div>
         </div>
       </div>
-    </ul>
-    <p v-else>No categories available.</p>
+    </div>
+    <p v-else class="text-center">No categories available.</p>
   </div>
 </template>
 
 <script setup>
-import {ref, onMounted} from 'vue';
+import { ref, onMounted } from 'vue';
 
 const categories = ref([]);
 const loading = ref(true);
@@ -43,13 +45,9 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.category-item {
-  text-align: center;
-  margin: 20px;
-}
-
 .category-image {
-  width: 200px;
-  height: auto;
+  width: 100%;
+  height: auto; /* Automatisk höjd för att bibehålla proportionerna */
+  object-fit: cover; /* Täcker kortets bredd utan att förvrängas */
 }
 </style>
