@@ -40,7 +40,7 @@
                     </div>
 
 
-                    <button @click="signup()" class="btn btn-primary w-100">Sign Up</button>
+                    <button  class="btn btn-primary w-100">Sign Up</button>
                 </form>
             </div>
 
@@ -123,6 +123,8 @@ export default {
 
                 if (response.status === 200) {
                     infoText.value = 'Signup successful';
+                    const redirectPath = this.$route.query.redirect || '/home';
+                    this.$router.push(redirectPath);
                 } else {
                     infoText.value = 'Signup failed';
                 }
