@@ -125,7 +125,7 @@ export default {
 
                 if (response.status === 200) {
                     infoText.value = 'Signup successful';
-                    const redirectPath =  '/home';
+                    const redirectPath =  '/login';
                     router.push(redirectPath);
                 } else {
                     infoText.value = 'Signup failed';
