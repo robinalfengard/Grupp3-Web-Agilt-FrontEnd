@@ -12,9 +12,9 @@
             <a class="nav-link active" aria-current="page" h>Home</a>
           </li>
         </router-link>
-        <router-link to="/signup">
+        <router-link to="/login">
           <li class="nav-item">
-            <a class="nav-link">Sign Up</a>
+            <a class="nav-link">Login</a>
         </li>
     </router-link>
         </ul>
