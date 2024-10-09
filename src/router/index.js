@@ -1,8 +1,8 @@
-import {createRouter, createWebHistory} from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import Signup from '@/components/Signup.vue'
 import Home from '@/components/Home.vue'
 import LandningPage from '@/components/LandningPage.vue'
-
+import SelectedItem from '@/components/SelectedItem.vue';  
 
 const routes = [
     {
@@ -16,9 +16,18 @@ const routes = [
         name: 'Home',
         component: Home
     },
+
     {
         path: '/',
+        name: 'LandningPage',
         component: LandningPage
+    },
+
+    {
+        path: '/selected-item/:id',  
+        name: 'SelectedItem',
+        component: SelectedItem,
+        props: true  
     }
 ]
 
