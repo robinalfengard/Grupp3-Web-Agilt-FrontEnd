@@ -1,6 +1,5 @@
 <template>
-  
-  <div>
+   <div>
     <NavBarForTestingRouting />
     <router-view />
   </div>
@@ -9,14 +8,13 @@
 <script>
 import NavBarForTestingRouting from './components/NavBarForTestingRouting.vue';
 
-
 export default {
   components: {
-    NavBarForTestingRouting,
-
+       NavBarForTestingRouting
   }
 }
 </script>
 
 <style>
 </style>
+

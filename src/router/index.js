@@ -3,12 +3,19 @@ import Signup from '@/components/Signup.vue'
 import Home from '@/components/Home.vue'
 import LandningPage from '@/components/LandningPage.vue'
 import SelectedItem from '@/components/SelectedItem.vue';  
+import LoginPage from "@/components/LoginPage.vue";
+
 
 const routes = [
     {
         path: '/signup',
         name: 'Signup',
         component: Signup
+    },
+    {
+        path: '/login',
+        name: 'Login',
+        component: LoginPage
     },
 
     {
