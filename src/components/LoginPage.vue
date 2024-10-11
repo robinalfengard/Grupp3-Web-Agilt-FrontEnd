@@ -22,14 +22,21 @@
 
 <script>
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 
 export default {
+
+  
   data() {
     return {
       email: '',
       password: '',
       errorMessage: ''
     };
+  },
+
+  created() {
+    this.router = useRouter();
   },
   methods: {
     async handleSubmit() {
@@ -41,10 +48,15 @@ export default {
         email: this.email,
         password: this.password
       };
+      
 
       try {
         const response = await axios.post('http://localhost:8080/user/login', userData);
         console.log('Login successful:', response.data);
+        localStorage.clear()
+        localStorage.setItem('user', JSON.stringify(response.data));
+        const redirectPath =  '/home';
+        this.router.push(redirectPath);
       } catch (error) {
         console.error('Login failed:', error);
         if (error.response && error.response.status === 401) {

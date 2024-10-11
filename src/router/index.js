@@ -29,12 +29,10 @@ const routes = [
         name: 'LandningPage',
         component: LandningPage
     },
-
     {
-        path: '/selected-item/:id',  
-        name: 'SelectedItem',
-        component: SelectedItem,
-        props: true  
+        path: '/categories/:id/products',
+        name: 'productsPage',
+        component: () => import('../components/productsPage.vue')
     }
 ]
 
