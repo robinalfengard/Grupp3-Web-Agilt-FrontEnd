@@ -16,10 +16,12 @@
     </div>
     <p v-else class="text-center">No categories available.</p>
   </div>
+  <OnSale/>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import OnSale from "@/components/OnSale.vue";
 
 const categories = ref([]);
 const loading = ref(true);
