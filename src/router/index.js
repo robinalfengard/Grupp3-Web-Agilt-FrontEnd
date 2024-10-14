@@ -27,6 +27,11 @@ const routes = [
         component: LandningPage
     },
     {
+        path:'/cart',
+        name: 'Cart',
+        component: () => import('../components/ShoppingCart.vue')
+    },
+    {
         path: '/categories/:id/products',
         name: 'productsPage',
         component: () => import('../components/productsPage.vue')
