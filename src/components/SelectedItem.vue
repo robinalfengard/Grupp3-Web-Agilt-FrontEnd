@@ -1,13 +1,13 @@
 <template>
-  <div class="container">
+  <div>
     <h1>Selected Item</h1>
     <div v-if="product">
-      <img :src="product.image" alt="Product image" class="img-fluid" />
-      <h2>{{ product.name }}</h2>
-      <p>{{ product.description }}</p>
-      <p>Price: {{ product.price }} USD</p>
-      <p>Category: {{ product.category.name }}</p>
-      <p>Size: {{ product.size.name }}</p>
+      <img :src="product.image" alt="Product Image" />
+      <p><strong>Name:</strong> {{ product.name }}</p>
+      <p><strong>Description:</strong> {{ product.description }}</p>
+      <p><strong>Price:</strong> {{ product.price }} USD</p>
+      <p><strong>Category:</strong> {{ product.category.name }}</p>
+      <p><strong>Size:</strong> {{ product.size.name }}</p>
     </div>
     <div v-else>
       <p>Loading product details...</p>
@@ -17,38 +17,39 @@
 
 <script>
 import axios from 'axios';
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 export default {
-  props: ['id'],  
-  data() {
-    return {
-      product: null
-    };
-  },
-  mounted() {
-    this.fetchProduct();
-  },
-  methods: {
-    fetchProduct() {
-      axios.get(`http://localhost:8080/product/${this.id}`)
+  setup() {
+    const product = ref(null);  
+    const route = useRoute();    
+
+    onMounted(() => {
+      const productId = route.params.id;  
+
+      
+      axios.get(`http://localhost:8080/product/${productId}`)
         .then(response => {
-          this.product = response.data;
+          product.value = response.data;  
         })
         .catch(error => {
-          console.error("Error fetching product:", error);
+          console.error("Error fetching product:", error);  
         });
-    }
+    });
+
+    return {
+      product
+    };
   }
-}
+};
 </script>
 
 <style scoped>
-.container {
-  text-align: center;
-}
-.img-fluid {
-  max-width: 50%;
-  height: auto;
-}
+  img {
+    max-width: 300px;
+    height: auto;
+  }
 </style>
+
 

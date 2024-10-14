@@ -5,7 +5,6 @@ import LandningPage from '@/components/LandningPage.vue'
 import SelectedItem from '@/components/SelectedItem.vue';  
 import LoginPage from "@/components/LoginPage.vue";
 
-
 const routes = [
     {
         path: '/signup',
@@ -33,6 +32,11 @@ const routes = [
         path: '/categories/:id/products',
         name: 'productsPage',
         component: () => import('../components/productsPage.vue')
+    },
+    {
+        path: '/selected-item/:id',  
+        name: 'SelectedItem',
+        component: SelectedItem
     }
 ]
 
