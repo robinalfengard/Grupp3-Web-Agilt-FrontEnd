@@ -1,55 +1,44 @@
 <template>
-  <div>
-    <h1>Selected Item</h1>
+  <div class="container">
     <div v-if="product">
-      <img :src="product.image" alt="Product Image" />
-      <p><strong>Name:</strong> {{ product.name }}</p>
-      <p><strong>Description:</strong> {{ product.description }}</p>
-      <p><strong>Price:</strong> {{ product.price }} USD</p>
-      <p><strong>Category:</strong> {{ product.category.name }}</p>
-      <p><strong>Size:</strong> {{ product.size.name }}</p>
+      <h1 class="text-center">{{ product.name }}</h1>
+      <img :src="product.image" alt="Product Image" class="img-fluid" />
+      <p>{{ product.description }}</p>
+      <p class="text-danger">{{ product.price }} kr</p>
+      <button @click="addToCart(product)" class="btn btn-primary">Add to Cart</button>
     </div>
-    <div v-else>
-      <p>Loading product details...</p>
-    </div>
+    <p v-else class="text-center">Loading product...</p>
   </div>
 </template>
 
-<script>
-import axios from 'axios';
-import { onMounted, ref } from 'vue';
+<script setup>
+import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 
-export default {
-  setup() {
-    const product = ref(null);  
-    const route = useRoute();    
+const product = ref(null);
+const route = useRoute();
+const productId = route.params.id;
 
-    onMounted(() => {
-      const productId = route.params.id;  
-
-      
-      axios.get(`http://localhost:8080/product/${productId}`)
-        .then(response => {
-          product.value = response.data;  
-        })
-        .catch(error => {
-          console.error("Error fetching product:", error);  
-        });
-    });
-
-    return {
-      product
-    };
+const fetchProduct = async () => {
+  try {
+    const response = await fetch(`http://localhost:8080/product/${productId}`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch product");
+    }
+    product.value = await response.json();
+  } catch (err) {
+    console.error("Error fetching product:", err);
   }
 };
+
+onMounted(() => {
+  fetchProduct();
+});
 </script>
 
 <style scoped>
-  img {
-    max-width: 300px;
-    height: auto;
-  }
+
 </style>
+
 
 
