@@ -46,7 +46,20 @@ const cart = ref([]);
 const loading = ref(false);
 const total = ref(0);
 
+const removeFromCart = async (item) => {
+  try {
+    await axios.delete(`http://localhost:8080/soldProduct/${user.id}/${item.product.id}`);
 
+    cart.value = cart.value.filter((cartItem) => cartItem.id !== item.id);
+
+    total.value = cart.value.reduce((acc, cartItem) => acc + cartItem.product.price, 0);
+
+    alert(`${item.product.name} has been removed from your cart.`);
+  } catch (error) {
+    console.error("Error removing item from cart:", error);
+    alert("Failed to remove the item. Please try again.");
+  }
+};
 
 
 onMounted(async () => {
