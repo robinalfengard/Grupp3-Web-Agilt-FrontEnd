@@ -55,7 +55,7 @@ export default {
         console.log('Login successful:', response.data);
         localStorage.clear()
         localStorage.setItem('user', JSON.stringify(response.data));
-        const redirectPath =  '/home';
+        const redirectPath =  '/';
         this.router.push(redirectPath);
       } catch (error) {
         console.error('Login failed:', error);
