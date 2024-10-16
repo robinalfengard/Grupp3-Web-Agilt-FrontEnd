@@ -1,0 +1,51 @@
+<template>
+  <div>
+    <p v-if="loading">Loading categories...</p>
+    <p v-if="error">{{ error }}</p>
+    <ul v-if="categories.length && !loading" class="categories-list">
+      <li v-for="category in categories" :key="category.id">
+        <RouterLink :to="{ name: 'goods', params: { id: category.id }}">
+          <div class="category-item">
+            <h2>{{ category.categoryName }}</h2><br>
+            <img :src="category.image" alt="Category Image" class="category-image">
+          </div>
+        </RouterLink>
+      </li>
+    </ul>
+    <p v-else>No categories available.</p>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+
+const categories = ref([]);
+const loading = ref(true);
+const error = ref(null);
+
+const fetchCategories = async () => {
+  try {
+    const response = await fetch("http://localhost:8080/category/all");
+    if (!response.ok) {
+      throw new Error("Failed to fetch categories");
+    }
+    const data = await response.json();
+    categories.value = data;
+  } catch (err) {
+    error.value = "Failed to load categories. Please try again.";
+    console.error("Error fetching categories:", err);
+  } finally {
+    loading.value = false;
+  }
+};
+
+onMounted(() => {
+  fetchCategories();
+});
+export default {
+  name: 'LandningPage',
+};
+</script>
+
+<style scoped>
+</style>
