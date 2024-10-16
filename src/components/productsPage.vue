@@ -1,6 +1,12 @@
 <template>
   <div class="container">
     <div class="d-flex justify-content-end mb-4 mt-2">
+      <input 
+        type="text"
+        class="form-control me-2"
+        placeholder="Search"
+        v-model="searchQuery"
+      />
       <div class="dropdown">
         <button
           class="btn btn-light dropdown-toggle fw-bold"
@@ -21,7 +27,7 @@
     <p v-if="loading" class="text-center">Loading products...</p>
     <p v-if="error" class="text-center text-danger">{{ error }}</p>
     <div v-if="products.length && !loading" class="row">
-      <div v-for="product in products" :key="product.id" class="col-12 col-md-6 col-lg-4 mb-4">
+      <div v-for="product in filteredProducts" :key="product.id" class="col-12 col-md-6 col-lg-4 mb-4">
         <div class="card h-100">
           <img :src="product.image" alt="Product Image" class="card-img-top product-image">
           <div class="card-body">
@@ -39,13 +45,14 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 const products = ref([]);
 const route = useRoute();
 const categoryId = route.params.id;
 const loading = ref(true);
+const searchQuery = ref('');
 
 
 const fetchProducts = async () => {
@@ -65,6 +72,12 @@ const changeSort = (criteria) => {
     products.value.sort((a, b) => b.price - a.price);
   }
 };
+
+const filteredProducts = computed(() => {
+  return products.value.filter(product =>
+    product.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
 
 onMounted(() => {
   fetchProducts();
