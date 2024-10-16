@@ -1,9 +1,9 @@
-import {createRouter, createWebHistory} from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import Signup from '@/components/Signup.vue'
 import LandningPage from '@/components/LandningPage.vue'
+import SelectedItem from '@/components/SelectedItem.vue';  
 import LoginPage from "@/components/LoginPage.vue";
 import MyPage from '@/components/MyPage.vue';
-
 
 const routes = [
     {
@@ -22,8 +22,10 @@ const routes = [
         name: 'MyPage',
         component: MyPage
     },
+
     {
         path: '/',
+        name: 'LandningPage',
         component: LandningPage
     },
     {
@@ -35,6 +37,11 @@ const routes = [
         path: '/categories/:id/products',
         name: 'productsPage',
         component: () => import('../components/productsPage.vue')
+    },
+    {
+        path: '/selected-item/:id',  
+        name: 'SelectedItem',
+        component: SelectedItem
     }
 ]
 

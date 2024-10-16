@@ -22,7 +22,7 @@
     <p v-if="error" class="text-center text-danger">{{ error }}</p>
     <div v-if="products.length && !loading" class="row">
       <div v-for="product in products" :key="product.id" class="col-12 col-md-6 col-lg-4 mb-4">
-        <div class="card h-100">
+        <router-link :to="{ name: 'SelectedItem', params: { id: product.id } }" class="card h-100">
           <img :src="product.image" alt="Product Image" class="card-img-top product-image">
           <div class="card-body">
             <h2 class="card-title text-center">{{ product.name }}</h2>
@@ -31,7 +31,7 @@
             <p class="card-text">{{ product.description }}</p>
             <button @click="addToCart(product)" class="btn btn-primary w-100">Add to cart</button>
           </div>
-        </div>
+        </router-link>
       </div>
     </div>
     <p v-else class="text-center">No products available.</p>
@@ -46,16 +46,22 @@ const products = ref([]);
 const route = useRoute();
 const categoryId = route.params.id;
 const loading = ref(true);
-
+const error = ref(null);
 
 const fetchProducts = async () => {
-  const response = await fetch(`http://localhost:8080/product/category/${categoryId}`);
-  if (!response.ok) {
-    throw new Error("Failed to fetch products");
+  try {
+    const response = await fetch(`http://localhost:8080/product/category/${categoryId}`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch products");
+    }
+    const data = await response.json();
+    products.value = data;
+  } catch (err) {
+    error.value = `Failed to load products: ${err.message}`;
+    console.error("Error fetching products:", err);
+  } finally {
+    loading.value = false;
   }
-  const data = await response.json();
-  products.value = data;
-  loading.value = false;
 };
 
 const changeSort = (criteria) => {
@@ -83,3 +89,5 @@ onMounted(() => {
   transform: scale(1.05);
 }
 </style>
+
+

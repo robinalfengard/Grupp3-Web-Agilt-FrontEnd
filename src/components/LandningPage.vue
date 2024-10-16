@@ -5,13 +5,13 @@
     <p v-if="error" class="text-center text-danger">{{ error }}</p>
     <div v-if="categories.length && !loading" class="row">
       <div v-for="category in categories" :key="category.id" class="col-6 col-md-4 col-lg-3 mb-4">
-        <RouterLink :to="{ name:'productsPage', params:{id:category.id}}">
-        <div class="card h-100">
-          <img :src="category.image" alt="Category Image" class="card-img-top category-image">
-          <div class="card-body">
-            <h2 class="card-title text-center">{{ category.name }}</h2>
+        <RouterLink :to="{ name: 'productsPage', params: { id: category.id } }">
+          <div class="card h-100">
+            <img :src="category.image" alt="Category Image" class="card-img-top category-image">
+            <div class="card-body">
+              <h2 class="card-title text-center">{{ category.name }}</h2>
+            </div>
           </div>
-        </div>
         </RouterLink>
       </div>
     </div>
@@ -52,7 +52,8 @@ onMounted(() => {
 <style scoped>
 .category-image {
   width: 100%;
-  height: auto; /* Automatisk höjd för att bibehålla proportionerna */
-  object-fit: cover; /* Täcker kortets bredd utan att förvrängas */
+  height: auto;
+  object-fit: cover;
 }
 </style>
+
