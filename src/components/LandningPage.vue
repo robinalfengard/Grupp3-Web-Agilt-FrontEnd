@@ -1,4 +1,5 @@
 <template>
+  <br>
   <div class="container">
     <p v-if="loading" class="text-center">Loading categories...</p>
     <p v-if="error" class="text-center text-danger">{{ error }}</p>
