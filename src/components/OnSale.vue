@@ -17,7 +17,7 @@
             <h5 v-else class="text-danger text-center"><br></h5>
             <p class="text-center">{{ product.price }} kr</p>
             <p class="card-text">{{ product.description }}</p>
-            <button @click="addToCart(product)" class="btn btn-primary w-100">Add to cart</button>
+            <button v-if="isLoggedIn" @click="addToCart(product)" class="btn btn-primary w-100">Add to cart</button>
           </div>
         </div>
       </div>
@@ -32,6 +32,7 @@ import {ref, onMounted} from 'vue';
 const products = ref([]);
 const loading = ref(false);
 const error = ref(null);
+const isLoggedIn = ref(false);
 
 const fetchProducts = async () => {
   loading.value = true;
@@ -54,7 +55,18 @@ const addToCart = (product) => {
   console.log(`${product.name} has been added to the cart!`);
 };
 
+const checkIfLoggedIn = () => {
+  const token = localStorage.getItem("user");
+  console.log(isLoggedIn.value);
+  if (token) {
+    isLoggedIn.value = true;
+  } else {
+    isLoggedIn.value = false;
+  }
+}
+
 onMounted(() => {
+  checkIfLoggedIn();
   fetchProducts();
 });
 </script>
