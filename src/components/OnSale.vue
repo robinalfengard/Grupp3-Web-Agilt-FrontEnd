@@ -70,6 +70,7 @@ const addToCart = (product) => {
       .catch(error => {
         console.error('There was an error adding the product to sold products:', error);
       });
+  alert("Product added to cart!");
 };
 
 
