@@ -10,7 +10,6 @@
         <tr>
           <th>Product Name</th>
           <th>Size</th>
-          <th>Date Sold</th>
           <th>Price (kr)</th>
           <th>Actions</th>
         </tr>
@@ -19,7 +18,6 @@
         <tr v-for="item in cart" :key="item.id">
           <td>{{ item.product.name }}</td>
           <td>{{ item.product.size.name}}</td>
-          <td>{{ item.dateWhenSold }}</td>
           <td>{{ item.product.price }} kr</td>
           <td>
             <button @click="removeFromCart(item)" class="btn btn-danger btn-sm">Remove</button>
@@ -33,6 +31,9 @@
         </tr>
         </tfoot>
       </table>
+      <div v-if="cart.length > 0" class="text-center mt-4">
+        <button @click="checkout" class="btn btn-primary btn-lg">Checkout</button>
+      </div>
     </div>
   </div>
 </template>
@@ -61,6 +62,15 @@ const removeFromCart = async (item) => {
   }
 };
 
+const checkout = () => {
+  if (cart.value.length === 0) {
+    alert("Your cart is empty. Add items before checking out.");
+    return;
+  }
+
+  alert("Proceeding to checkout!");
+  window.location.href = "/checkout";
+};
 
 onMounted(async () => {
   if (user && user.id) {
