@@ -40,6 +40,11 @@ const routes = [
         path: '/checkout',
         name: 'checkout',
         component: () => import('../components/CheckoutItems.vue')
+    },
+    {
+        path: '/confirmationPage',
+        name: 'confirmationPage',
+        component: () => import('../components/ConfirmationPage.vue')
     }
 ]
 

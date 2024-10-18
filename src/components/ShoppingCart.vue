@@ -3,9 +3,8 @@
     <h1 v-if="!user.id" class="text-center">You must be logged in to view your cart.</h1>
     <div v-else>
       <p v-if="loading" class="text-center">Loading your cart...</p>
-      <p v-if="cart.length === 0 && !loading" class="text-center">Your cart is empty</p>
-
-      <table v-if="cart.length" class="table table-striped table-bordered table-hover cart-table mx-auto">
+      <p v-if="(cart.length === 0 && !loading) || total == 0" class="text-center">Your cart is empty</p>
+      <table v-if="cart.length && total > 0" class="table table-striped table-bordered table-hover cart-table mx-auto">
         <thead class="thead-dark">
         <tr>
           <th>Product Name</th>
@@ -31,7 +30,7 @@
         </tr>
         </tfoot>
       </table>
-      <div v-if="cart.length > 0" class="text-center mt-4">
+      <div v-if="cart.length > 0 && total > 0" class="text-center mt-4">
         <button @click="checkout" class="btn btn-primary btn-lg">Checkout</button>
       </div>
     </div>
@@ -84,7 +83,7 @@ onMounted(async () => {
           .filter(item => item.paymentStatus === 'PENDING')
           .reduce((acc, item) => acc + item.product.price, 0)
           .toFixed(2);
-      if (cart.value.length === 0) {
+      if (cart.value.length === 0 || total.value == 0) {
         alert("Your cart is empty");
       }
     } catch (error) {
