@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <div v-if="product">
+    <div v-if="product" class="product-container">
       <h1 class="text-center">{{ product.name }}</h1>
-      <img :src="product.image" alt="Product Image" class="img-fluid" />
+      <img :src="product.image" alt="Product Image" class="img-fluid product-image" />
       <p>{{ product.description }}</p>
       <p class="text-danger">{{ product.price }} kr</p>
       <button @click="addToCart(product)" class="btn btn-primary">Add to Cart</button>
@@ -37,8 +37,31 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
 
+.product-container {
+  text-align: center;
+  max-width: 500px;
+}
+
+.product-image {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+
+.text-center {
+  text-align: center;
+}
 </style>
+
 
 
 
