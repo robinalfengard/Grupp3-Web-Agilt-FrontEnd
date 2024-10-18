@@ -15,7 +15,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="item in cart.filter(item => item.paymentStatus === null)" :key="item.id">
+        <tr v-for="item in cart.filter(item => item.paymentStatus === 'PENDING')" :key="item.id">
           <td>{{ item.product.name }}</td>
           <td>{{ item.product.size.name }}</td>
           <td>{{ item.product.price }} kr</td>
@@ -54,7 +54,7 @@ const removeFromCart = async (item) => {
     cart.value = cart.value.filter((cartItem) => cartItem.id !== item.id);
 
     total.value = cart.value
-        .filter(item => item.paymentStatus === null)
+        .filter(item => item.paymentStatus === "PENDING")
         .reduce((acc, item) => acc + item.product.price, 0)
         .toFixed(2);
     alert(`${item.product.name} has been removed from your cart.`);
@@ -81,7 +81,7 @@ onMounted(async () => {
       const response = await axios.get(`http://localhost:8080/soldProduct/${user.id}`);
       cart.value = response.data.length ? response.data : [];
       total.value = cart.value
-          .filter(item => item.paymentStatus === null)
+          .filter(item => item.paymentStatus === 'PENDING')
           .reduce((acc, item) => acc + item.product.price, 0)
           .toFixed(2);
       if (cart.value.length === 0) {

@@ -33,6 +33,7 @@
           <div class="card-body">
             <h2 class="card-title text-center">{{ product.name }}</h2>
             <h5 v-if="product.onSale" class="text-danger text-center">ON SALE</h5>
+            <h5 v-if="!product.onSale" ><br> </h5>
             <p class="text-center">{{ product.price }} kr</p>
             <p class="card-text">{{ product.description }}</p>
             <button v-if="isLoggedIn" @click="addToCart(product)" class="btn btn-primary w-100">Add to cart</button>
@@ -82,6 +83,7 @@ const addToCart = (product) => {
       .catch(error => {
         console.error('There was an error adding the product to sold products:', error);
       });
+  alert("Product added to cart!");
 };
 
 
