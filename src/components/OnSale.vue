@@ -17,7 +17,7 @@
             <h5 v-else class="text-danger text-center"><br></h5>
             <p class="text-center">{{ product.price }} kr</p>
             <p class="card-text">{{ product.description }}</p>
-            <button @click="addToCart(product)" class="btn btn-primary w-100">Add to cart</button>
+            <button v-if="isLoggedIn" @click="addToCart(product)" class="btn btn-primary w-100">Add to cart</button>
           </div>
         </div>
       </div>
@@ -28,10 +28,14 @@
 
 <script setup>
 import {ref, onMounted} from 'vue';
+import axios from "axios";
 
 const products = ref([]);
 const loading = ref(false);
 const error = ref(null);
+const user = JSON.parse(localStorage.getItem('user')) || {};
+
+const isLoggedIn = ref(false);
 
 const fetchProducts = async () => {
   loading.value = true;
@@ -52,9 +56,38 @@ const fetchProducts = async () => {
 
 const addToCart = (product) => {
   console.log(`${product.name} has been added to the cart!`);
+  console.log(`${user.firstName} has been added to the cart!`);
+
+  axios.post('http://localhost:8080/soldProduct', {
+    product: {
+      id: product.id,
+    },
+    user: {
+      id: user.id
+    },
+    dateWhenSold: new Date().toISOString().split('T')[0]  // Lägger till dagens datum i formatet 'YYYY-MM-DD'
+  })
+      .then(response => {
+        console.log('Product successfully added to sold products:', response.data);
+      })
+      .catch(error => {
+        console.error('There was an error adding the product to sold products:', error);
+      });
 };
 
+
+const checkIfLoggedIn = () => {
+  const token = localStorage.getItem("user");
+  console.log(isLoggedIn.value);
+  if (token) {
+    isLoggedIn.value = true;
+  } else {
+    isLoggedIn.value = false;
+  }
+}
+
 onMounted(() => {
+  checkIfLoggedIn();
   fetchProducts();
 });
 </script>
