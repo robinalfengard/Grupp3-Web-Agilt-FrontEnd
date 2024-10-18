@@ -1,11 +1,18 @@
 <template>
   <div class="container">
-    <div v-if="product" class="product-container">
-      <h1 class="text-center">{{ product.name }}</h1>
-      <img :src="product.image" alt="Product Image" class="img-fluid product-image" />
+    <div v-if="product" class="product-container text-center"> 
+      <h1>{{ product.name }}</h1>
+      <img :src="product.image" alt="Product Image" class="img-fluid product-image mx-auto" />
       <p>{{ product.description }}</p>
       <p class="text-danger">{{ product.price }} kr</p>
-      <button @click="handleAddToCart(product)" class="btn btn-primary">Add to Cart</button>
+
+      
+      <button @click="addToFavorites(product)" class="btn btn-outline-danger mt-2">
+        ♥ Add to Favorites
+      </button>
+
+      
+      <button @click="addToCart(product)" class="btn btn-primary mt-2">Add to Cart</button>
     </div>
     <p v-else class="text-center">Loading product...</p>
   </div>
@@ -16,20 +23,12 @@ import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 
-
 const product = ref(null);
 const route = useRoute();
 const productId = route.params.id;
 
 
 const user = JSON.parse(localStorage.getItem('user')) || {};
-const isLoggedIn = ref(false);
-
-
-const checkIfLoggedIn = () => {
-  const token = localStorage.getItem("user");
-  isLoggedIn.value = !!token;
-};
 
 
 const fetchProduct = async () => {
@@ -45,9 +44,32 @@ const fetchProduct = async () => {
 };
 
 
+const addToFavorites = async (product) => {
+  if (!user.id) {
+    alert("You need to log in to add favorites!");
+    return;
+  }
+
+  try {
+    await axios.post('http://localhost:8080/favoriteItem/add', {
+      product: {
+        id: product.id,
+      },
+      user: {
+        id: user.id,
+      }
+    });
+    alert(`${product.name} has been added to your favorites!`);
+  } catch (error) {
+    console.error("Error adding to favorites:", error);
+    alert("Failed to add product to favorites. Please try again.");
+  }
+};
+
+
 const addToCart = async (product) => {
-  if (!isLoggedIn.value) {
-    alert("You must be logged in to add items to the cart.");
+  if (!user.id) {
+    alert("You need to log in to add items to the cart!");
     return;
   }
 
@@ -57,42 +79,34 @@ const addToCart = async (product) => {
         id: product.id,
       },
       user: {
-        id: user.id
+        id: user.id,
       },
       dateWhenSold: new Date().toISOString().split('T')[0]  
     });
-
-    alert("Product added to cart!");
+    alert(`${product.name} has been added to your cart!`);
   } catch (error) {
-    console.error('There was an error adding the product to sold products:', error);
-    alert("Failed to add item to cart. Please try again.");
+    console.error("Error adding to cart:", error);
+    alert("Failed to add product to cart. Please try again.");
   }
 };
 
-
-const handleAddToCart = (product) => {
-  checkIfLoggedIn();  
-  addToCart(product); 
-};
-
-
 onMounted(() => {
   fetchProduct();
-  checkIfLoggedIn();  
 });
 </script>
 
 <style scoped>
 .container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  justify-content: center; 
+  align-items: center;    
+  min-height: 100vh;      
 }
 
 .product-container {
-  text-align: center;
-  max-width: 500px;
+  text-align: center;      
+  max-width: 600px;       
+  margin: auto;           
 }
 
 .product-image {
@@ -102,11 +116,9 @@ onMounted(() => {
   object-fit: cover;
   margin-bottom: 20px;
 }
-
-.text-center {
-  text-align: center;
-}
 </style>
+
+
 
 
 
