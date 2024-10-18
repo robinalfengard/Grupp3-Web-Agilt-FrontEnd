@@ -1,43 +1,22 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <router-link to="/">
-        <a class="navbar-brand" href="#">Clothing Store</a>
-      </router-link>
+      <router-link to="/" class="navbar-brand">Clothing Store</router-link>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-<<<<<<< HEAD
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-=======
               aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
->>>>>>> main
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <router-link to="/mypage">
-<<<<<<< HEAD
-            <li class="nav-item" v-if="isLoggedIn">
-              <a class="nav-link active" aria-current="page" h>My Page</a>
-=======
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page">MyPage</a>
->>>>>>> main
-            </li>
-          </router-link>
-          <router-link to="/login">
-            <li class="nav-item">
-<<<<<<< HEAD
-              <a @click="logout()" class="nav-link" v-text="isLoggedIn ? 'Logout' : 'Login'"></a>
-=======
-              <a class="nav-link">Login</a>
-            </li>
-          </router-link>
-          <router-link to="/cart">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page">Shopping Cart</a>
->>>>>>> main
-            </li>
-          </router-link>
+          <li class="nav-item" v-if="isLoggedIn">
+            <router-link to="/mypage" class="nav-link active" aria-current="page">My Page</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/login" class="nav-link" @click="logout()">{{ isLoggedIn ? 'Logout' : 'Login' }}</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/cart" class="nav-link active" aria-current="page">Shopping Cart</router-link>
+          </li>
         </ul>
       </div>
     </div>
@@ -45,7 +24,6 @@
 </template>
 
 <script>
-<<<<<<< HEAD
 export default {
   name: 'NavBarForTestingRouting',
   data() {
@@ -53,9 +31,8 @@ export default {
       isLoggedIn: false
     }
   },
-  
   mounted() {
-    this.checkLogin(); 
+    this.checkLogin();
   },
   watch: {
     $route() {
@@ -65,22 +42,12 @@ export default {
   methods: {
     checkLogin() {
       const token = localStorage.getItem('user');
-      if (token) {
-        this.isLoggedIn = true;
-      } else {
-        this.isLoggedIn = false;
-      }
+      this.isLoggedIn = !!token; // true if token exists
     },
     logout() {
       localStorage.removeItem('user');
       this.isLoggedIn = false;
     }
   }
-=======
-
-export default {
-  name: 'NavBarForTestingRouting',
-
->>>>>>> main
 }
 </script>
