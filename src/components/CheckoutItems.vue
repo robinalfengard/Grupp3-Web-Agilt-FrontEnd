@@ -1,62 +1,94 @@
 <template>
+  <!-- Cart Section -->
   <div class="container mt-5">
-    <!-- Cart Section -->
-    <h1 v-if="!user.id" class="text-center">You must be logged in to view your cart.</h1>
-    <div v-else>
-      <p v-if="loading" class="text-center">Loading your cart...</p>
-      <p v-if="cart.length === 0 && !loading" class="text-center">Your cart is empty</p>
+    <div v-if="!user.id" class="alert alert-warning text-center" role="alert">
+      <h1>You must be logged in to view your cart.</h1>
+    </div>
 
-      <table v-if="cart.length" class="table table-striped table-bordered table-hover cart-table mx-auto">
-        <thead class="thead-dark">
-        <tr>
-          <th>Product Name</th>
-          <th>Size</th>
-          <th>Price (kr)</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="item in cart.filter(item => item.paymentStatus === 'PENDING')" :key="item.id">
-          <td>{{ item.product.name }}</td>
-          <td>{{ item.product.size.name }}</td>
-          <td>{{ item.product.price }} kr</td>
-        </tr>
-        </tbody>
-        <tfoot>
-        <tr>
-          <td colspan="2" class="text-right" style="color: orangered; font-weight: bold"><strong>Total:</strong></td>
-          <td colspan="2" style="color: orangered; font-weight: bold">{{ total }} kr</td>
-        </tr>
-        </tfoot>
-      </table>
+    <div v-else>
+      <p v-if="loading" class="text-center text-muted">Loading your cart...</p>
+      <div v-if="cart.length === 0 && !loading" class="alert alert-info text-center">
+        <p>Your cart is empty</p>
+      </div>
+
+      <!-- Cart Table -->
+      <div v-if="cart.length">
+        <table class="table table-striped table-bordered table-hover cart-table">
+          <thead class="thead-dark">
+          <tr>
+            <th>Product Name</th>
+            <th>Size</th>
+            <th>Price (kr)</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="item in cart.filter(item => item.paymentStatus === 'PENDING')" :key="item.id">
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.product.size.name }}</td>
+            <td>{{ item.product.price }} kr</td>
+          </tr>
+          </tbody>
+          <tfoot>
+          <tr>
+            <td colspan="2" class="text-end"><strong>Total:</strong></td>
+            <td style="color: orangered; font-weight: bold">{{ total }} kr</td>
+          </tr>
+          </tfoot>
+        </table>
+      </div>
     </div>
   </div>
 
   <!-- Shipping and Payment Details -->
   <div class="container mt-5">
-    <div>
-      <h2>Shipping address</h2>
-      {{ user.address }}, {{ user.city }}<br>
-      {{ user.firstName }} {{ user.lastName }}<br>
-    </div>
+    <div class="row">
+      <!-- Shipping Details -->
+      <div class="col-md-6">
+        <h2 class="mb-3">Shipping Address</h2>
+        <p>
+          <strong>{{ user.firstName }} {{ user.lastName }}</strong><br>
+          {{ user.address }}<br> {{ user.city }}
+        </p>
+      </div>
 
-    <!-- Post Type -->
-    <div>
-      <h3>Post type</h3>
-      <div>
-        <label><input type="radio" v-model="selectedPostType" value="STANDARD"> STANDARD</label><br>
-        <label><input type="radio" v-model="selectedPostType" value="POSTNORD"> POSTNORD</label><br>
-        <label><input type="radio" v-model="selectedPostType" value="EXPRESS"> EXPRESS</label><br>
-        <label><input type="radio" v-model="selectedPostType" value="DHL"> DHL</label><br>
+      <!-- Post Type -->
+      <div class="col-md-6">
+        <h3 class="mb-3">Post Type</h3>
+        <div class="form-check">
+          <input type="radio" class="form-check-input" v-model="selectedPostType" value="STANDARD">
+          <label class="form-check-label">STANDARD</label>
+        </div>
+        <div class="form-check">
+          <input type="radio" class="form-check-input" v-model="selectedPostType" value="POSTNORD">
+          <label class="form-check-label">POSTNORD</label>
+        </div>
+        <div class="form-check">
+          <input type="radio" class="form-check-input" v-model="selectedPostType" value="EXPRESS">
+          <label class="form-check-label">EXPRESS</label>
+        </div>
+        <div class="form-check">
+          <input type="radio" class="form-check-input" v-model="selectedPostType" value="DHL">
+          <label class="form-check-label">DHL</label>
+        </div>
       </div>
     </div>
 
     <!-- Payment Type -->
-    <div>
-      <h3>Payment type</h3>
-      <div>
-        <label><input type="radio" v-model="selectedPaymentType" value="CREDIT_CARD"> Credit Card</label><br>
-        <label><input type="radio" v-model="selectedPaymentType" value="FACTOR"> Factor</label><br>
-        <label><input type="radio" v-model="selectedPaymentType" value="BANK_TRANSFER"> Bank Transfer</label><br>
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <h3 class="mb-3">Payment Type</h3>
+        <div class="form-check">
+          <input type="radio" class="form-check-input" v-model="selectedPaymentType" value="CREDIT_CARD">
+          <label class="form-check-label">Credit Card</label>
+        </div>
+        <div class="form-check">
+          <input type="radio" class="form-check-input" v-model="selectedPaymentType" value="FACTOR">
+          <label class="form-check-label">Factor</label>
+        </div>
+        <div class="form-check">
+          <input type="radio" class="form-check-input" v-model="selectedPaymentType" value="BANK_TRANSFER">
+          <label class="form-check-label">Bank Transfer</label>
+        </div>
       </div>
     </div>
   </div>
@@ -68,7 +100,7 @@
 </template>
 
 <script setup>
-import {ref, onMounted} from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
 // Initialize variables
@@ -108,10 +140,10 @@ const processPayment = async () => {
     await axios.put(`http://localhost:8080/soldProduct/checkout/${user.id}`, {
       paymentType: selectedPaymentType.value,
       postType: selectedPostType.value,
-      paymentStatus:"COMPLETED"
+      paymentStatus: "COMPLETED"
     });
 
-    window.location.href = '/';
+    window.location.href = '/confirmationPage';
   } catch (error) {
     console.error("Error processing payment:", error);
     alert('Payment failed. Please try again.');
@@ -120,5 +152,25 @@ const processPayment = async () => {
 </script>
 
 <style scoped>
+.cart-table {
+  width: 100%;
+  margin: 0 auto;
+}
 
+.table-hover tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+thead.thead-dark {
+  background-color: #343a40;
+  color: white;
+}
+
+.container {
+  max-width: 800px;
+}
+
+.text-end {
+  text-align: end;
+}
 </style>
