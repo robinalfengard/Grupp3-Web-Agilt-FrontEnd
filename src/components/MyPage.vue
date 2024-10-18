@@ -59,6 +59,9 @@
                     <p>Beskrivning: {{ item.product.description }}</p>
                     <p>Pris: {{ item.product.price }}</p>
                     <p>Datum: {{ item.dateWhenSold }}</p>
+                    <p>Payment status: {{ item.paymentStatus }}</p>
+                    <p>Payment Method: {{ item.paymentType }}</p>
+                    <p>Post Type: {{ item.postType }}</p>
                   </div>
                 </div>
               </li>
