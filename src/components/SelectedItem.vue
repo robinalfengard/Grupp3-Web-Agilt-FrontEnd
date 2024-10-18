@@ -16,7 +16,7 @@ import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 
-// Product-related data
+
 const product = ref(null);
 const route = useRoute();
 const productId = route.params.id;
@@ -44,7 +44,7 @@ const fetchProduct = async () => {
   }
 };
 
-// Function to add product to the shopping cart
+
 const addToCart = async (product) => {
   if (!isLoggedIn.value) {
     alert("You must be logged in to add items to the cart.");
@@ -59,7 +59,7 @@ const addToCart = async (product) => {
       user: {
         id: user.id
       },
-      dateWhenSold: new Date().toISOString().split('T')[0]  // Format 'YYYY-MM-DD'
+      dateWhenSold: new Date().toISOString().split('T')[0]  
     });
 
     alert("Product added to cart!");
@@ -69,16 +69,16 @@ const addToCart = async (product) => {
   }
 };
 
-// Wrapper function to handle adding product to cart
+
 const handleAddToCart = (product) => {
-  checkIfLoggedIn();  // Check if the user is logged in before adding to cart
-  addToCart(product); // Add product to cart if logged in
+  checkIfLoggedIn();  
+  addToCart(product); 
 };
 
-// Run fetchProduct on mount
+
 onMounted(() => {
   fetchProduct();
-  checkIfLoggedIn();  // Check if user is logged in when component is mounted
+  checkIfLoggedIn();  
 });
 </script>
 
