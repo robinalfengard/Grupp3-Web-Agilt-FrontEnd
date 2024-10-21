@@ -1,8 +1,10 @@
 <template>
-   <div>
+  <div class="d-flex flex-column min-vh-100">
     <NavBarForTestingRouting />
-    <router-view />
-    <FooterComponent />
+    <div class="flex-grow-1">
+      <router-view />
+    </div>
+    <FooterComponent class="mt-auto" />
   </div>
 </template>
 
