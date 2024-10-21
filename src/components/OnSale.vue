@@ -55,9 +55,6 @@ const fetchProducts = async () => {
 };
 
 const addToCart = (product) => {
-  console.log(`${product.name} has been added to the cart!`);
-  console.log(`${user.firstName} has been added to the cart!`);
-
   axios.post('http://localhost:8080/soldProduct', {
     product: {
       id: product.id,
@@ -73,6 +70,7 @@ const addToCart = (product) => {
       .catch(error => {
         console.error('There was an error adding the product to sold products:', error);
       });
+  alert("Product added to cart!");
 };
 
 
