@@ -24,6 +24,12 @@ const routes = [
     },
 
     {
+        path: '/item/:id',
+        name: 'SelectedItem',
+        component: SelectedItem
+    },
+    
+    {
         path: '/',
         name: 'LandningPage',
         component: LandningPage
