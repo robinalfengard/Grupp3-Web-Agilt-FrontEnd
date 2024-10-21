@@ -18,6 +18,7 @@
             <p class="text-center">{{ product.price }} kr</p>
             <p class="card-text">{{ product.description }}</p>
             <button v-if="isLoggedIn" @click="addToCart(product)" class="btn btn-primary w-100">Add to cart</button>
+            <button v-if="isLoggedIn" @click="addToFavorites(product)" class="btn btn-outline-danger mt-2 w-100">♥ Add to Favorites</button>
           </div>
         </div>
       </div>
@@ -51,6 +52,29 @@ const fetchProducts = async () => {
     error.value = err.message;
   } finally {
     loading.value = false;
+  }
+};
+
+
+const addToFavorites = async (product) => {
+  if (!user.id) {
+    alert("You need to log in to add favorites!");
+    return;
+  }
+
+  try {
+    await axios.post('http://localhost:8080/favoriteItem/add', {
+      product: {
+        id: product.id,
+      },
+      user: {
+        id: user.id,
+      }
+    });
+    alert(`${product.name} has been added to your favorites!`);
+  } catch (error) {
+    console.error("Error adding to favorites:", error);
+    alert("Failed to add product to favorites. Please try again.");
   }
 };
 
