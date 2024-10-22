@@ -5,13 +5,19 @@
       <img :src="product.image" alt="Product Image" class="img-fluid product-image mx-auto" />
       <p>{{ product.description }}</p>
       <p class="text-danger">{{ product.price }} kr</p>
+      <div>
+        <label for="size" class="form-label">Select Size:</label>
+        <select v-model="selectedSize" class="form-select" id="size">
+          <option v-for="size in product.sizes" :key="size.id" :value="size.id">
+            {{ size.name }}
+          </option>
+        </select>
+      </div>
 
-      
       <button @click="addToFavorites(product)" class="btn btn-outline-danger mt-2">
         ♥ Add to Favorites
       </button>
 
-      
       <button @click="addToCart(product)" class="btn btn-primary mt-2">Add to Cart</button>
     </div>
     <p v-else class="text-center">Loading product...</p>
@@ -26,10 +32,10 @@ import axios from 'axios';
 const product = ref(null);
 const route = useRoute();
 const productId = route.params.id;
+const selectedSize = ref(''); // Changed to hold the size ID
 
 
 const user = JSON.parse(localStorage.getItem('user')) || {};
-
 
 const fetchProduct = async () => {
   try {
@@ -38,11 +44,16 @@ const fetchProduct = async () => {
       throw new Error("Failed to fetch product");
     }
     product.value = await response.json();
+    console.log("Fetched product:", product.value);
+    
+    // Set the default selected size if sizes are available
+    if (product.value.sizes && product.value.sizes.length) {
+      selectedSize.value = product.value.sizes[0].id; // Set the selectedSize to the ID of the first size
+    }
   } catch (err) {
     console.error("Error fetching product:", err);
   }
 };
-
 
 const addToFavorites = async (product) => {
   if (!user.id) {
@@ -66,23 +77,29 @@ const addToFavorites = async (product) => {
   }
 };
 
-
 const addToCart = async (product) => {
   if (!user.id) {
     alert("You need to log in to add items to the cart!");
     return;
   }
 
+  if (!selectedSize.value) {
+    alert("Please select a size before adding to the cart.");
+    return;
+  }
+
   try {
-    await axios.post('http://localhost:8080/soldProduct', {
+    const response = await axios.post('http://localhost:8080/soldProduct', {
       product: {
         id: product.id,
       },
+      sizeId: selectedSize.value, // Send only the size ID
       user: {
         id: user.id,
       },
       dateWhenSold: new Date().toISOString().split('T')[0]  
     });
+    console.log("Response from adding to cart:", response.data);
     alert(`${product.name} has been added to your cart!`);
   } catch (error) {
     console.error("Error adding to cart:", error);
@@ -117,11 +134,5 @@ onMounted(() => {
   margin-bottom: 20px;
 }
 </style>
-
-
-
-
-
-
 
 
