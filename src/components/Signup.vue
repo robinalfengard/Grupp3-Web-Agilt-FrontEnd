@@ -53,7 +53,7 @@
 <script>
 import { ref } from 'vue';
 import axios from 'axios';
-import { API_URL } from '@/config';
+import { API_URL } from '../config';
 import { useRouter } from 'vue-router';
 axios.defaults.baseURL = API_URL;
 
