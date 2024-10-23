@@ -1,7 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
 import Signup from '../Signup.vue';
-import axios from 'axios';
 
 describe('Signup', () => {
   it('Unfilled form return false', () => {
