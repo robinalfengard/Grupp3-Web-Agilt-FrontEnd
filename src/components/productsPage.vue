@@ -28,20 +28,20 @@
     <p v-if="error" class="text-center text-danger">{{ error }}</p>
     <div v-if="products.length && !loading" class="row">
       <div v-for="product in filteredProducts" :key="product.id" class="col-12 col-md-6 col-lg-4 mb-4">
+        <!-- Removed the Add to Cart button from here -->
         <router-link :to="{ name: 'SelectedItem', params: { id: product.id } }" class="card h-100">
-      <div class="card h-100">
-      <img :src="product.image" alt="Product Image" class="card-img-top product-image">
-      <div class="card-body">
-        <h2 class="card-title text-center">{{ product.name }}</h2>
-        <h5 v-if="product.onSale" class="text-danger text-center">ON SALE</h5>
-            <h5 v-if="!product.onSale" ><br> </h5>
-        <p class="text-center">{{ product.price }} kr</p>
-        <p class="card-text">{{ product.description }}</p>
-        <button v-if="isLoggedIn" @click="addToCart(product)" class="btn btn-primary w-100">Add to cart</button>
+          <div class="card h-100">
+            <img :src="product.image" alt="Product Image" class="card-img-top product-image">
+            <div class="card-body">
+              <h2 class="card-title text-center">{{ product.name }}</h2>
+              <h5 v-if="product.onSale" class="text-danger text-center">ON SALE</h5>
+              <h5 v-if="!product.onSale"><br></h5>
+              <p class="text-center">{{ product.price }} kr</p>
+              <p class="card-text">{{ product.description }}</p>
+            </div>
+          </div>
+        </router-link>
       </div>
-    </div>
-  </router-link>
-</div>
     </div>
     <p v-else class="text-center">No products available.</p>
   </div>
@@ -70,6 +70,8 @@ const checkIfLoggedIn = () => {
     isLoggedIn.value = false;
   }
 }
+
+// eslint-disable-next-line no-unused-vars
 const addToCart = (product) => {
   axios.post('http://localhost:8080/soldProduct', {
     product: {
@@ -132,7 +134,8 @@ onMounted(() => {
   object-fit: cover;
 }
 .card {
-  transition: transform 0.3s;
+  transition: transform 0.2s ease-in-out;
+  overflow: hidden;
 }
 .card:hover {
   transform: scale(1.05);
