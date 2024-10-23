@@ -32,7 +32,7 @@ import axios from 'axios';
 const product = ref(null);
 const route = useRoute();
 const productId = route.params.id;
-const selectedSize = ref(''); // Changed to hold the size ID
+const selectedSize = ref('');
 
 
 const user = JSON.parse(localStorage.getItem('user')) || {};
@@ -46,9 +46,8 @@ const fetchProduct = async () => {
     product.value = await response.json();
     console.log("Fetched product:", product.value);
     
-    // Set the default selected size if sizes are available
     if (product.value.sizes && product.value.sizes.length) {
-      selectedSize.value = product.value.sizes[0].id; // Set the selectedSize to the ID of the first size
+      selectedSize.value = product.value.sizes[0].id;
     }
   } catch (err) {
     console.error("Error fetching product:", err);
@@ -77,28 +76,28 @@ const addToFavorites = async (product) => {
   }
 };
 
+
 const addToCart = async (product) => {
   if (!user.id) {
     alert("You need to log in to add items to the cart!");
     return;
   }
-
-  if (!selectedSize.value) {
-    alert("Please select a size before adding to the cart.");
-    return;
-  }
-
   try {
-    const response = await axios.post('http://localhost:8080/soldProduct', {
+    const payload = {
       product: {
         id: product.id,
       },
-      sizeId: selectedSize.value, // Send only the size ID
       user: {
         id: user.id,
       },
-      dateWhenSold: new Date().toISOString().split('T')[0]  
-    });
+      dateWhenSold: new Date().toISOString().split('T')[0],
+    };
+
+    if (selectedSize.value) {
+      payload.size = { id: selectedSize.value };
+    }
+
+    const response = await axios.post('http://localhost:8080/soldProduct', payload);
     console.log("Response from adding to cart:", response.data);
     alert(`${product.name} has been added to your cart!`);
   } catch (error) {
