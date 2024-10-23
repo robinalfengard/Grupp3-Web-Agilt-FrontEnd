@@ -134,7 +134,8 @@ onMounted(() => {
   object-fit: cover;
 }
 .card {
-  transition: transform 0.3s;
+  transition: transform 0.2s ease-in-out;
+  overflow: hidden;
 }
 .card:hover {
   transform: scale(1.05);
