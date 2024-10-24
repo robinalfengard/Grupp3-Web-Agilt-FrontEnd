@@ -1,7 +1,7 @@
 <template>
   <div class="container text-center my-5">
     <h1 class="display-4 text-white p-3" style="background-color: red; border-radius: 10px;">
-      20% Rabatt på Alla Deena Produkter!
+      20% discount on products that are on sale!
     </h1>
   </div>
   <div class="container">

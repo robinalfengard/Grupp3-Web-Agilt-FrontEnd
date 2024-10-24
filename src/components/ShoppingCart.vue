@@ -31,6 +31,7 @@
         </tfoot>
       </table>
       <div v-if="cart.length > 0 && total > 0" class="text-center mt-4">
+        <h2>At checkout, the discount for this item will be applied</h2>
         <button @click="checkout" class="btn btn-primary btn-lg">Checkout</button>
       </div>
     </div>
