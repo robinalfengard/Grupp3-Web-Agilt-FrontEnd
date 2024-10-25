@@ -30,7 +30,6 @@ describe('Signup', () => {
     const password = 'hej123'; 
     const address = 'Gata 23';
     const city = '';
-    const infoText = '';
 
     const wrapper = mount(Signup);
 
