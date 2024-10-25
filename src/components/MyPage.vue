@@ -52,13 +52,13 @@
               <li v-for="item in previouslyBoughtProducts" :key="item.id" class="list-group-item">
                 <div class="row">
                   <div class="col-md-4">
-                    <img :src="item.product.image" alt="image of item" class="img-fluid">
+                    <img v-if="item.product && item.product.image" :src="item.product.image" alt="image of item" class="img-fluid">
                   </div>
                   <div class="col-md-8">
-                    <h6>{{ item.product.name }}</h6>
-                    <p>Beskrivning: {{ item.product.description }}</p>
-                    <p>Pris: {{ item.product.price }}</p>
-                    <p>Datum: {{ item.dateWhenSold }}</p>
+                    <h6 v-if="item.product && item.product.name">{{ item.product.name }}</h6>
+                    <p v-if="item.product && item.product.description">Beskrivning: {{ item.product.description }}</p>
+                    <p v-if="item.product && item.product.price">Pris: {{ item.product.price }}</p>
+                    <p v-if="item.product && item.dateWhenSold">Datum: {{ item.dateWhenSold }}</p>
                     <p>Payment status: {{ item.paymentStatus }}</p>
                     <p>Payment Method: {{ item.paymentType }}</p>
                     <p>Post Type: {{ item.postType }}</p>
