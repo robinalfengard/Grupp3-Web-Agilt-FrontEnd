@@ -4,9 +4,7 @@
       <div class="col-md-8">
         <h2 class="text-center mb-4">Hello {{ user.firstName }}!</h2>
         <div class="card shadow-sm">
-          
           <div class="card-body">
-            
             <div class="row">
               <div class="col-md-6">
                 <h5 class="card-title text-center">User Details</h5>
@@ -18,6 +16,7 @@
                   <li class="list-group-item">Address: {{ user.address }}</li>
                 </ul>
               </div>
+
               <div class="col-md-6">
                 <h5 class="card-title text-center">Favorite Items</h5>
                 <p>{{ infoTextFavoriteItems }}</p>
@@ -25,11 +24,15 @@
                   <li v-for="item in favoriteItems" :key="item.id" class="list-group-item">
                     <div class="row">
                       <div class="col-md-4">
-                        <img :src="item.product.image" alt="image of item" class="img-fluid">
+                        <RouterLink :to="{ name: 'SelectedItem', params: { id: item.product.id } }">
+                          <img :src="item.product.image" alt="image of item" class="img-fluid">
+                        </RouterLink>
                       </div>
                       <div class="col-md-8">
-                        <h6>{{ item.product.name }}</h6>
-                        <p>Pris: {{ item.product.price }}</p>
+                        <RouterLink :to="{ name: 'SelectedItem', params: { id: item.product.id } }" class="text-decoration-none">
+                          <h6>{{ item.product.name }}</h6>
+                        </RouterLink>
+                        <p>Pris: {{ item.product.price }} kr</p>
                         <p>Beskrivning: {{ item.product.description }}</p>
                         <button @click="removeFavoriteItem(item)" class="btn btn-danger">Remove</button>
                       </div>
@@ -42,6 +45,7 @@
         </div>
       </div>
     </div>
+
     <div class="row justify-content-center mt-5">
       <div class="col-md-8">
         <div class="card shadow-sm">
@@ -85,6 +89,7 @@ export default {
     const favoriteItems = ref([]);
     var infoTextPreviouslyBoughtItems = ref('');
     var infoTextFavoriteItems = ref('');
+
     const fetchPreviouslyBaughtProducts = async () => {
       try {
         const response = await fetch(`http://localhost:8080/soldProduct/${user.id}`);
@@ -107,20 +112,14 @@ export default {
             if (!response.ok) {
               infoTextFavoriteItems = "No favorite items found"
               throw new Error("Failed to fetch favorite items");
-                
             }
             const data = await response.json();
-            console.log(data);
             favoriteItems.value = data;
         } catch (err) {
             console.log(err);
         }
     };
     
-    
-
-
-
     fetchPreviouslyBaughtProducts();
     fetchFavoriteItems();
 
@@ -138,11 +137,13 @@ export default {
         .catch((error) => {
           console.error('Error deleting favorite item:', error);
         });
-  
-
       }
   }
-  
-
 }
 </script>
+
+<style scoped>
+.text-decoration-none {
+  text-decoration: none;
+}
+</style>
