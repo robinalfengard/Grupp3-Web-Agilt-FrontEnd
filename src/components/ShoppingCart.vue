@@ -16,7 +16,7 @@
         <tbody>
         <tr v-for="item in cart.filter(item => item.paymentStatus === 'PENDING')" :key="item.id">
           <td>{{ item.product.name }}</td>
-          <td>{{ item.product.size.name }}</td>
+          <td>{{ item.size ? item.size.name : 'N/A' }}</td>
           <td>{{ item.product.price }} kr</td>
           <td>
             <button @click="removeFromCart(item)" class="btn btn-danger btn-sm">Remove</button>
