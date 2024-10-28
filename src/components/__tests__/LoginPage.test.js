@@ -9,7 +9,6 @@ describe('Signup', () => {
     it('Unfilled form return correct error message', () => {
         const email = ''; 
         const password = 'hej123';
-        const errorMessage = ''; 
 
         const wrapper = mount(LoginPage);
 
@@ -24,7 +23,6 @@ describe('Signup', () => {
     it('Filled form return no error message', () => {
         const email = 'hej123'; 
         const password = 'hej123';
-        const errorMessage = ''; 
 
         const wrapper = mount(LoginPage);
 
