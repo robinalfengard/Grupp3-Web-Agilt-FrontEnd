@@ -28,7 +28,6 @@
     <p v-if="error" class="text-center text-danger">{{ error }}</p>
     <div v-if="products.length && !loading" class="row">
       <div v-for="product in filteredProducts" :key="product.id" class="col-12 col-md-6 col-lg-4 mb-4">
-        <!-- Removed the Add to Cart button from here -->
         <router-link :to="{ name: 'SelectedItem', params: { id: product.id } }" class="card h-100">
           <div class="card h-100">
             <img :src="product.image" alt="Product Image" class="card-img-top product-image">
@@ -71,7 +70,7 @@ const checkIfLoggedIn = () => {
   }
 }
 
-// eslint-disable-next-line no-unused-vars
+
 const addToCart = (product) => {
   axios.post('http://localhost:8080/soldProduct', {
     product: {
@@ -80,7 +79,7 @@ const addToCart = (product) => {
     user: {
       id: user.id
     },
-    dateWhenSold: new Date().toISOString().split('T')[0]  // Lägger till dagens datum i formatet 'YYYY-MM-DD'
+    dateWhenSold: new Date().toISOString().split('T')[0]  
   })
       .then(response => {
         console.log('Product successfully added to sold products:', response.data);

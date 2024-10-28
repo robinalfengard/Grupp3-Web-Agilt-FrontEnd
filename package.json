@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "npm run test & npm run serve -- --port 3000",
+    "start": "npm run test && npm run serve",
+    "serve": "vue-cli-service serve --port 3000",
     "test": "vitest",
     "coverage": "vitest run --coverage",
-    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
