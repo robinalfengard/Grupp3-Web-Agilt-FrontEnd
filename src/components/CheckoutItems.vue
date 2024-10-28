@@ -19,13 +19,17 @@
             <th>Product Name</th>
             <th>Size</th>
             <th>Price (kr)</th>
+            <th>Sale</th>
           </tr>
           </thead>
           <tbody>
           <tr v-for="item in cart.filter(item => item.paymentStatus === 'PENDING')" :key="item.id">
             <td>{{ item.product.name }}</td>
-            <td>{{ item.size.name }}</td>
-            <td>{{ item.product.price }} kr</td>
+            <td>{{ item.product.size.name }}</td>
+            <td v-if="item.product.onSale">{{ (item.product.price * 0.8).toFixed(2) }} kr</td>
+            <td v-if="!item.product.onSale">{{ item.product.price }} kr</td>
+            <td v-if="item.product.onSale" style="color: red">{{ (item.product.price * 0.2).toFixed(2) }} kr</td>
+            <td v-if="!item.product.onSale" style="color: red">0.00 kr</td>
           </tr>
           </tbody>
           <tfoot>
@@ -100,7 +104,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import {ref, onMounted} from 'vue';
 import axios from 'axios';
 
 // Initialize variables
@@ -110,6 +114,7 @@ const loading = ref(false);
 const total = ref(0);
 const selectedPostType = ref('STANDARD');
 const selectedPaymentType = ref('CREDIT_CARD');
+const isProcessingPayment = ref(false);
 
 // Fetch cart data when component is mounted
 onMounted(async () => {
@@ -120,7 +125,10 @@ onMounted(async () => {
       cart.value = response.data.length ? response.data : [];
       total.value = cart.value
           .filter(item => item.paymentStatus === 'PENDING')
-          .reduce((acc, item) => acc + item.product.price, 0)
+          .reduce((acc, item) => {
+            const discountedPrice = item.product.onSale ? item.product.price * 0.8 : item.product.price;
+            return acc + discountedPrice;
+          }, 0)
           .toFixed(2);
       if (cart.value.length === 0) {
         alert("Your cart is empty");
@@ -135,6 +143,9 @@ onMounted(async () => {
 
 // Handle payment processing
 const processPayment = async () => {
+  if (isProcessingPayment.value) return;
+  isProcessingPayment.value = true;
+
   try {
     // Send the payment data to the backend
     await axios.put(`http://localhost:8080/soldProduct/checkout/${user.id}`, {
@@ -147,6 +158,8 @@ const processPayment = async () => {
   } catch (error) {
     console.error("Error processing payment:", error);
     alert('Payment failed. Please try again.');
+  } finally {
+    isProcessingPayment.value = false;
   }
 };
 </script>
