@@ -13,11 +13,20 @@
           <RouterLink :to="{ name: 'SelectedItem', params: { id: product.id } }">
             <img :src="product.image" alt="Product Image" class="card-img-top product-image">
           </RouterLink>
+          <RouterLink :to="{ name: 'SelectedItem', params: { id: product.id } }">
+            <img :src="product.image" alt="Product Image" class="card-img-top product-image">
+          </RouterLink>
           <div class="card-body">
             <RouterLink :to="{ name: 'SelectedItem', params: { id: product.id } }" class="text-decoration-none">
               <h2 class="card-title text-center mb-2">{{ product.name }}</h2>
             </RouterLink>
+            <RouterLink :to="{ name: 'SelectedItem', params: { id: product.id } }" class="text-decoration-none">
+              <h2 class="card-title text-center mb-2">{{ product.name }}</h2>
+            </RouterLink>
             <h5 v-if="product.onSale" class="text-danger text-center">ON SALE</h5>
+            <p class="text-center mt-3 mb-1">{{ product.price }} kr</p>
+            <p class="card-text text-center">{{ product.description }}</p>
+            <button v-if="isLoggedIn" @click="addToCart(product)" class="btn btn-primary w-100 mt-3">Add to cart</button>
             <p class="text-center mt-3 mb-1">{{ product.price }} kr</p>
             <p class="card-text text-center">{{ product.description }}</p>
             <button v-if="isLoggedIn" @click="addToCart(product)" class="btn btn-primary w-100 mt-3">Add to cart</button>
@@ -31,6 +40,7 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
 import { ref, onMounted } from 'vue';
 import axios from "axios";
 
@@ -96,6 +106,12 @@ const addToCart = (product) => {
     .catch(error => {
       console.error('There was an error adding the product to sold products:', error);
     });
+    .then(response => {
+      console.log('Product successfully added to sold products:', response.data);
+    })
+    .catch(error => {
+      console.error('There was an error adding the product to sold products:', error);
+    });
   alert("Product added to cart!");
 };
 
@@ -106,6 +122,7 @@ const checkIfLoggedIn = () => {
   } else {
     isLoggedIn.value = false;
   }
+};
 };
 
 onMounted(() => {
@@ -131,7 +148,14 @@ onMounted(() => {
 .text-decoration-none {
   text-decoration: none;
 }
+
+.text-decoration-none {
+  text-decoration: none;
+}
 </style>
+
+
+
 
 
 
