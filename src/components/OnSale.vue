@@ -8,7 +8,7 @@
     <p v-if="loading" class="text-center">Loading products...</p>
     <p v-if="error" class="text-center text-danger">{{ error }}</p>
     <div v-if="products.length && !loading" class="row">
-      <div v-for="product in products" :key="product.id" class="col-12 col-md-6 col-lg-4 mb-4">
+      <div v-for="product in products" :key="product.id" class="col-12 col-md-6 col-lg-3 mb-4">
         <div class="card h-100">
           <RouterLink :to="{ name: 'SelectedItem', params: { id: product.id } }">
             <img :src="product.image" alt="Product Image" class="card-img-top product-image">
@@ -19,7 +19,7 @@
             </RouterLink>
             <h5 v-if="product.onSale" class="text-danger text-center">ON SALE</h5>
             <p class="text-center mt-3 mb-1">{{ product.price }} kr</p>
-            <p class="card-text text-center">{{ product.description }}</p>
+            <p class="card-text text-center product-description">{{ product.description }}</p>
             <button v-if="isLoggedIn" @click="addToCart(product)" class="btn btn-primary w-100 mt-3">Add to cart</button>
             <button v-if="isLoggedIn" @click="addToFavorites(product)" class="btn btn-outline-danger mt-2 w-100">♥ Add to Favorites</button>
           </div>
@@ -29,6 +29,7 @@
     <p v-if="!products.length && !loading" class="text-center">No products available.</p>
   </div>
 </template>
+
 
 <script setup>
 import { ref, onMounted } from 'vue';
@@ -136,6 +137,14 @@ onMounted(() => {
 .text-decoration-none {
   text-decoration: none;
 }
+.product-description {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
 </style>
 
 
