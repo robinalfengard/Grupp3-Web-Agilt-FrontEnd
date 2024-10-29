@@ -52,7 +52,7 @@ export default {
 
       try {
         const response = await axios.post('http://localhost:8080/user/login', userData);
-        console.log('Login successful:', response.data);
+        console.log('Login successful');
         localStorage.clear()
         localStorage.setItem('user', JSON.stringify(response.data));
         const redirectPath =  '/';
