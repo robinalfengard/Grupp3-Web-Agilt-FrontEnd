@@ -49,7 +49,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import axios from "axios";
 
 const products = ref([]);
 const route = useRoute();
@@ -57,7 +56,6 @@ const categoryId = route.params.id;
 const loading = ref(true);
 const error = ref(null);
 const searchQuery = ref('');
-const user = JSON.parse(localStorage.getItem('user')) || {};
 const isLoggedIn = ref(false);
 
 const checkIfLoggedIn = () => {
@@ -71,24 +69,7 @@ const checkIfLoggedIn = () => {
 }
 
 
-const addToCart = (product) => {
-  axios.post('http://localhost:8080/soldProduct', {
-    product: {
-      id: product.id,
-    },
-    user: {
-      id: user.id
-    },
-    dateWhenSold: new Date().toISOString().split('T')[0]  
-  })
-      .then(response => {
-        console.log('Product successfully added to sold products:', response.data);
-      })
-      .catch(error => {
-        console.error('There was an error adding the product to sold products:', error);
-      });
-  alert("Product added to cart!");
-};
+
 
 
 const fetchProducts = async () => {
