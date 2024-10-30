@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div v-if="product" class="product-container text-center"> 
+    <div v-if="product" class="product-container text-center">
       <h1>{{ product.name }}</h1>
       <img :src="product.image" alt="Product Image" class="img-fluid product-image mx-auto" />
       <p>{{ product.description }}</p>
@@ -21,6 +21,7 @@
       <button @click="addToCart(product)" class="btn btn-primary mt-2">Add to Cart</button>
     </div>
     <p v-else class="text-center">Loading product...</p>
+    <GlobalModal ref="modalRef" />
   </div>
 </template>
 
@@ -28,12 +29,13 @@
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
+import GlobalModal from "@/components/GlobalModal.vue";
 
 const product = ref(null);
 const route = useRoute();
 const productId = route.params.id;
 const selectedSize = ref('');
-
+const modalRef = ref(null); // Reference to the GlobalModal component
 
 const user = JSON.parse(localStorage.getItem('user')) || {};
 
@@ -45,7 +47,7 @@ const fetchProduct = async () => {
     }
     product.value = await response.json();
     console.log("Fetched product:", product.value);
-    
+
     if (product.value.sizes && product.value.sizes.length) {
       selectedSize.value = product.value.sizes[0].id;
     }
@@ -56,40 +58,31 @@ const fetchProduct = async () => {
 
 const addToFavorites = async (product) => {
   if (!user.id) {
-    alert("You need to log in to add favorites!");
+    showModal("You need to log in to add favorites!");
     return;
   }
 
   try {
     await axios.post('http://localhost:8080/favoriteItem/add', {
-      product: {
-        id: product.id,
-      },
-      user: {
-        id: user.id,
-      }
+      product: { id: product.id },
+      user: { id: user.id },
     });
-    alert(`${product.name} has been added to your favorites!`);
+    showModal(`${product.name} has been added to your favorites!`);
   } catch (error) {
     console.error("Error adding to favorites:", error);
-    alert("Failed to add product to favorites. Please try again.");
+    showModal("Failed to add product to favorites. Please try again.");
   }
 };
 
-
 const addToCart = async (product) => {
   if (!user.id) {
-    alert("You need to log in to add items to the cart!");
+    showModal("You need to log in to add items to the cart!");
     return;
   }
   try {
     const payload = {
-      product: {
-        id: product.id,
-      },
-      user: {
-        id: user.id,
-      },
+      product: { id: product.id },
+      user: { id: user.id },
       dateWhenSold: new Date().toISOString().split('T')[0],
     };
 
@@ -99,11 +92,15 @@ const addToCart = async (product) => {
 
     const response = await axios.post('http://localhost:8080/soldProduct', payload);
     console.log("Response from adding to cart:", response.data);
-    alert(`${product.name} has been added to your cart!`);
+    showModal(`${product.name} has been added to your cart!`);
   } catch (error) {
     console.error("Error adding to cart:", error);
-    alert("Failed to add product to cart. Please try again.");
+    showModal("Failed to add product to cart. Please try again.");
   }
+};
+
+const showModal = (message) => {
+  modalRef.value.showModal(message); // Call the showModal method of the GlobalModal component
 };
 
 onMounted(() => {
@@ -114,24 +111,22 @@ onMounted(() => {
 <style scoped>
 .container {
   display: flex;
-  justify-content: center; 
-  align-items: center;    
-  min-height: 100vh;      
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
 .product-container {
-  text-align: center;      
-  max-width: 600px;       
-  margin: auto;           
+  text-align: center;
+  max-width: 600px;
+  margin: auto;
 }
 
 .product-image {
-  width: 100%;
+  width: 400px;
   max-width: 400px;
   height: auto;
   object-fit: cover;
   margin-bottom: 20px;
 }
 </style>
-
-

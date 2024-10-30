@@ -35,17 +35,20 @@
         <button @click="checkout" class="btn btn-primary btn-lg">Checkout</button>
       </div>
     </div>
+    <GlobalModal ref="modalRef" />
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import GlobalModal from "@/components/GlobalModal.vue";
 
 const user = JSON.parse(localStorage.getItem('user')) || {};
 const cart = ref([]);
 const loading = ref(false);
 const total = ref(0);
+const modalRef = ref(null); // Reference to the GlobalModal component
 
 const removeFromCart = async (item) => {
   try {
@@ -57,21 +60,25 @@ const removeFromCart = async (item) => {
         .filter(item => item.paymentStatus === "PENDING")
         .reduce((acc, item) => acc + item.product.price, 0)
         .toFixed(2);
-    alert(`${item.product.name} has been removed from your cart.`);
+
+    showModal(`${item.product.name} has been removed from your cart.`);
   } catch (error) {
     console.error("Error removing item from cart:", error);
-    alert("Failed to remove the item. Please try again.");
+    showModal("Failed to remove the item. Please try again.");
   }
 };
 
 const checkout = () => {
   if (cart.value.length === 0) {
-    alert("Your cart is empty. Add items before checking out.");
+    showModal("Your cart is empty. Add items before checking out.");
     return;
   }
 
-  alert("Proceeding to checkout!");
-  window.location.href = "/checkout";
+  window.location.href = "/checkout"; // Be aware this will navigate away
+};
+
+const showModal = (message) => {
+  modalRef.value.showModal(message); // Call the showModal method of the GlobalModal component
 };
 
 onMounted(async () => {
@@ -85,7 +92,7 @@ onMounted(async () => {
           .reduce((acc, item) => acc + item.product.price, 0)
           .toFixed(2);
       if (cart.value.length === 0 || total.value == 0) {
-        alert("Your cart is empty");
+        showModal("Your cart is empty");
       }
     } catch (error) {
       console.error("Error fetching cart:", error);
