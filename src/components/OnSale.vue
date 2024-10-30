@@ -27,20 +27,21 @@
       </div>
     </div>
     <p v-if="!products.length && !loading" class="text-center">No products available.</p>
+    <GlobalModal ref="modalRef" />
   </div>
 </template>
 
-
 <script setup>
-import { ref, onMounted } from 'vue';
+import {ref, onMounted} from 'vue';
 import axios from "axios";
+import GlobalModal from "@/components/GlobalModal.vue";
 
 const products = ref([]);
 const loading = ref(false);
 const error = ref(null);
 const user = JSON.parse(localStorage.getItem('user')) || {};
-
 const isLoggedIn = ref(false);
+const modalRef = ref(null); // Reference to the GlobalModal component
 
 const fetchProducts = async () => {
   loading.value = true;
@@ -61,54 +62,45 @@ const fetchProducts = async () => {
 
 const addToFavorites = async (product) => {
   if (!user.id) {
-    alert("You need to log in to add favorites!");
+    showModal("You need to log in to add favorites!");
     return;
   }
 
   try {
     await axios.post('http://localhost:8080/favoriteItem/add', {
-      product: {
-        id: product.id,
-      },
-      user: {
-        id: user.id,
-      }
+      product: {id: product.id},
+      user: {id: user.id},
     });
-    alert(`${product.name} has been added to your favorites!`);
+    showModal(`${product.name} has been added to your favorites!`);
   } catch (error) {
     console.error("Error adding to favorites:", error);
-    alert("Failed to add product to favorites. Please try again.");
+    showModal("Failed to add product to favorites. Please try again.");
   }
 };
 
 const addToCart = (product) => {
   axios.post('http://localhost:8080/soldProduct', {
-    product: {
-      id: product.id,
-    },
-    user: {
-      id: user.id
-    },
-    dateWhenSold: new Date().toISOString().split('T')[0]  // Lägger till dagens datum i formatet 'YYYY-MM-DD'
+    product: {id: product.id},
+    user: {id: user.id},
+    dateWhenSold: new Date().toISOString().split('T')[0], // Today's date in format 'YYYY-MM-DD'
   })
-    .then(response => {
-      console.log('Product successfully added to sold products:', response.data);
-    })
-    .catch(error => {
-      console.error('There was an error adding the product to sold products:', error);
-    });
-  alert("Product added to cart!");
+      .then(response => {
+        console.log('Product successfully added to sold products:', response.data);
+        showModal("Product added to cart!");
+      })
+      .catch(error => {
+        console.error('There was an error adding the product to sold products:', error);
+      });
 };
 
 const checkIfLoggedIn = () => {
   const token = localStorage.getItem("user");
-  if (token) {
-    isLoggedIn.value = true;
-  } else {
-    isLoggedIn.value = false;
-  }
+  isLoggedIn.value = !!token; // Set isLoggedIn to true if token exists
 };
 
+const showModal = (message) => {
+  modalRef.value.showModal(message); // Call the showModal method of the GlobalModal component
+};
 
 onMounted(() => {
   checkIfLoggedIn();
@@ -134,9 +126,6 @@ onMounted(() => {
   text-decoration: none;
 }
 
-.text-decoration-none {
-  text-decoration: none;
-}
 .product-description {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -144,11 +133,4 @@ onMounted(() => {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
 }
-
 </style>
-
-
-
-
-
-
