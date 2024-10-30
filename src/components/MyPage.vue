@@ -61,11 +61,11 @@
                   <div class="col-md-8">
                     <h6 v-if="item.product && item.product.name">{{ item.product.name }}</h6>
                     <p v-if="item.product && item.product.description">Beskrivning: {{ item.product.description }}</p>
-                    <p v-if="item.product && item.product.price">Pris: {{ item.product.price }}</p>
-                    <p v-if="item.product && item.dateWhenSold">Datum: {{ item.dateWhenSold }}</p>
-                    <p>Payment status: {{ item.paymentStatus }}</p>
-                    <p>Payment Method: {{ item.paymentType }}</p>
-                    <p>Post Type: {{ item.postType }}</p>
+                    <p v-if="item.product && item.product.price">Pris:<b> {{ item.product.price }}</b></p>
+                    <p v-if="item.product && item.dateWhenSold">Datum: <b>{{ item.dateWhenSold }}</b></p>
+                    <p>Payment status: <b>{{ item.paymentStatus }}</b></p>
+                    <p>Payment Method: <b>{{ item.paymentType }}</b></p>
+                    <p>Post Type: <b>{{ item.postType }}</b></p>
                   </div>
                 </div>
               </li>
