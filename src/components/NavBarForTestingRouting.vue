@@ -6,7 +6,7 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
       <router-link to="/" class="navbar-brand">
-        <i class="bi bi-house custom-icon"></i>
+        <img src="/g3.jpg" alt="logo" class="logo">
       </router-link>
       <button
           class="navbar-toggler"
@@ -73,13 +73,15 @@ export default {
 </script>
 
 <style scoped>
-/* Styling for icons */
+.logo {
+  width: 2.2rem;
+  border-radius: 4px;
+}
 .custom-icon {
   font-size: 2rem;
   color: #007bff;
 }
 
-/* Additional hover effect */
 .nav-link:hover .custom-icon {
   color: #d22ead; /* Darker color on hover */
 }
