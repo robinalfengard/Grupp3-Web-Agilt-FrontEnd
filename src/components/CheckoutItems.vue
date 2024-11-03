@@ -101,6 +101,7 @@
   <div class="text-center mt-4">
     <button @click="processPayment" class="btn btn-primary btn-lg">Proceed to Payment</button>
   </div>
+  <br>
 </template>
 
 <script setup>
