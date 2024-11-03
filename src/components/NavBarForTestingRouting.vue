@@ -4,7 +4,7 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
   />
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
+    <div class="container-fluid navbar-expand">
       <router-link to="/" class="navbar-brand">
         <img src="/g3.jpg" alt="logo" class="logo">
       </router-link>
