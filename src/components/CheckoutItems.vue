@@ -18,7 +18,7 @@
           <tr>
             <th>Product Name</th>
             <th>Size</th>
-            <th>Price (kr)</th>
+            <th>Price</th>
             <th>Sale</th>
           </tr>
           </thead>
@@ -26,10 +26,10 @@
           <tr v-for="item in cart.filter(item => item.paymentStatus === 'PENDING')" :key="item.id">
             <td>{{ item.product.name }}</td>
             <td>{{ item.size ? item.size.name : 'N/A' }}</td>
-            <td v-if="item.product.onSale">{{ (item.product.price * 0.8).toFixed(2) }} kr</td>
-            <td v-if="!item.product.onSale">{{ item.product.price }} kr</td>
-            <td v-if="item.product.onSale" style="color: red">{{ (item.product.price * 0.2).toFixed(2) }} kr</td>
-            <td v-if="!item.product.onSale" style="color: red">0.00 kr</td>
+            <td v-if="item.product.onSale">{{ (item.product.price * 0.8).toFixed(2) }} </td>
+            <td v-if="!item.product.onSale">{{ item.product.price }} </td>
+            <td v-if="item.product.onSale" style="color: red">{{ (item.product.price * 0.2).toFixed(2) }} </td>
+            <td v-if="!item.product.onSale" style="color: red">0.00</td>
           </tr>
           </tbody>
           <tfoot>
